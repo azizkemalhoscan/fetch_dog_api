@@ -10,7 +10,7 @@ function fetchData(url){
     .then(response => response.json())
     .catch(error => console.log("look likes there is a poblem", error))
 }
-'https://dog.ceo/api/breeds/image/random'
+
 Promise.all([
   fetchData('https://dog.ceo/api/breeds/list'),
   fetchData('https://dog.ceo/api/breeds/image/random')
@@ -52,9 +52,9 @@ function checkStatus(response){
 
 function generateOptions(data){
   console.log(data);
-  const options = data.map(item => {
+  const options = data.map(item =>
     `<option value='${item}'>${item}</option>`
-  }).join('');
+  ).join('');
   select.innerHTML = options;
 }
 
@@ -97,7 +97,13 @@ function postData(e){
   e.preventDefault();
   const name = document.getElementById('name').value;
   const comment = document.getElementById('comment').value;
-  fetch('https://jsonplaceholder.typicode.com/comments')
+  fetch('https://jsonplaceholder.typicode.com/comments',{
+    method: 'POST' ,
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({name: name , comment: comment})
+  })
     .then(checkStatus)
     .then(response => response.json())
     .then(data => console.log(data))
